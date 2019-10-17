@@ -1,6 +1,9 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// No Node.js APIs are available in this process because
-// `nodeIntegration` is turned off. Use `preload.js` to
-// selectively enable features needed in the rendering
-// process.
+$('input[type=range]').on('input', function () {
+    $(this).trigger('change');
+});
+
+$(".bit_range").change(function() {
+    let value = $(this).val();
+
+    $(`.${$(this).attr("name")}_display`).text(value);
+})

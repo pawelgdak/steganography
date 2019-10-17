@@ -2,13 +2,80 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Steganography</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script> 
+      if (typeof module === 'object') {window.module = module; module = undefined;} 
+    </script>
+
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script>if (window.module) module = window.module;</script>
+
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
+    
+    <section>
+
+      <p class="title">Photos</p>
+
+      <div class="photos">
+        <div class="photo original">
+          <div class="caption">Original photo</div>
+          <div class="image"><img id="original-photo" src="" /></div>
+          <div class="buttons"><button id="load-image">Load image</button></div>
+        </div>
+        <div class="photo modified">
+          <div class="caption">Modified photo</div>
+          <div class="image"><img id="modified-photo" src="" /></div>
+          <div class="buttons"><button id="save-image">Save image</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+
+      <p class="title">Settings</p>
+
+      <div class="settings">
+        <div class="bits-count">
+          <div class="bit">
+            <label for="bit_R">Red</label>
+            <div class="display bit_R_display" type="number">2</div>
+            <input class="bit_range" type="range" value="2" min="1" max="8" step="1" name="bit_R" id="bit_R" />
+          </div>
+          <div class="bit">
+            <label for="bit_G">Green</label>
+            <div class="display bit_G_display" type="number">2</div>
+            <input class="bit_range" type="range" value="2" min="1" max="8" step="1" name="bit_G" id="bit_G" />
+          </div>
+          <div class="bit">
+            <label for="bit_B">Blue</label>
+            <div class="display bit_B_display" type="number">2</div>
+            <input class="bit_range" type="range" value="2" min="1" max="8" step="1" name="bit_B" id="bit_B" />
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+
+      <p class="title">Text to hide</p>
+
+      <div class="text-to-hide">
+        <textarea id="text" name="text">Sample text</textarea>
+
+        <button id="load-text-file">Load text from a file</button>
+      </div>
+
+    </section>
+
+    <section>
+      <div class="main-buttons">
+        <button id="hide">Hide</button>
+      </div>
+    </section>
 
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>

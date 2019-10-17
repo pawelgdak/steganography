@@ -1,22 +1,20 @@
 {
-  "name": "electron-quick-start",
+  "name": "steganography",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "University project",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
+  "repository": "https://github.com/pawelgdak/steganography",
+  "keywords": [],
+  "author": "pawelgdak.pl",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^6.0.12"
+    "electron": "^6.0.12",
+    "electron-reload": "^1.5.0"
+  },
+  "dependencies": {
+    "jquery": "^3.4.1"
   }
 }

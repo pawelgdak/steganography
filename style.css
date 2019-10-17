@@ -1,0 +1,133 @@
+body {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+.photos {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+section {
+    margin: .4em;
+    margin-bottom: 1em;
+}
+
+.photo {
+    width: 50%;
+    height: 320px;
+}
+
+.photo:nth-child(1) {
+    margin-right: .4em;
+}
+
+.photo:nth-child(2) {
+    margin-left: .4em;
+}
+
+.image {
+    display: flex;
+    background: #333;
+    flex: 1;
+    height: 264px;
+}
+
+.buttons {
+    display: flex;
+    flex: 1;
+    height: 26px;
+    background: #eee;
+}
+
+.caption {
+    display: flex;
+    flex: 1;
+    height: 30px;
+    color: #333;
+    font-size: .8em;
+    text-transform: uppercase;
+}
+
+.title {
+    font-size: .7em;
+    font-family: 'Verdana';
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.settings {
+    display: flex;
+    flex-direction: row;
+}
+
+.bits-count {
+    display: flex;
+    flex-direction: column;
+}
+
+.bit {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    margin-bottom: .5em;
+}
+
+.bit label {
+    font-size: 1.2em;
+    font-family: "Verdana";
+    width: 72px;
+}
+
+.bit .display {
+    width: 24px;
+    margin-right: .6em;
+    border: 1px solid rgb(232, 232, 232);
+    background: #fbfbfb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+textarea {
+    resize: none;
+    width: 60%;
+    height: 124px;
+    padding: .6em;
+    margin-right: 1em;
+}
+
+.text-to-hide {
+    display: flex;
+    flex-direction: row;
+}
+
+button#load-text-file {
+    height: 32px;
+}
+
+.image img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+.main-buttons button {
+    width: 100%;
+    height: 42px;
+}
