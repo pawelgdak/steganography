@@ -16,6 +16,7 @@ function createWindow () {
     resizable: false,
     width: 800,
     height: 800,
+    icon: path.join(__dirname, '/icons/icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
