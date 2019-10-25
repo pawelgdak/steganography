@@ -24,42 +24,60 @@
           <div class="caption">Original photo</div>
           <div class="image"><img id="original-photo" src="" /></div>
           <div class="buttons">
-            <button id="load-image">Load image</button>
-            <button id="decode">Decode</button>
+            <div class="buttons-container">
+              <button id="load-image">Load image</button>
+              <button id="decode">Decode</button>
+              <button id="clear-original">Clear</button>
+            </div>
+            <div id="original-photo-size" class="image-size"></div>
           </div>
         </div>
         <div class="photo modified">
           <div class="caption">Modified photo</div>
           <div class="image"><img id="modified-photo" src="" /></div>
           <div class="buttons">
-            <button id="save-image">Save image</button>
+            <div class="buttons-container">
+                <button id="save-image">Save image</button>
+                <button id="clear-modified">Clear</button>
+              </div>
+              <div id="modified-photo-size" class="image-size"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section>
+    <section class="with-columns">
 
-      <p class="title">Settings</p>
+      <div class="column">
+        <p class="title">Settings</p>
 
-      <div class="settings">
-        <div class="bits-count">
-          <div class="bit">
-            <label for="bit_R">Red</label>
-            <div class="display bit_R_display" type="number">2</div>
-            <input class="bit_range" type="range" value="2" min="1" max="8" step="1" name="bit_R" id="bit_R" />
-          </div>
-          <div class="bit">
-            <label for="bit_G">Green</label>
-            <div class="display bit_G_display" type="number">2</div>
-            <input class="bit_range" type="range" value="2" min="1" max="8" step="1" name="bit_G" id="bit_G" />
-          </div>
-          <div class="bit">
-            <label for="bit_B">Blue</label>
-            <div class="display bit_B_display" type="number">2</div>
-            <input class="bit_range" type="range" value="2" min="1" max="8" step="1" name="bit_B" id="bit_B" />
+        <div class="description">Set how many bits (for every channel) should store the encoded text.</div>
+        <div class="settings">
+          <div class="bits-count">
+            <div class="bit">
+              <label for="bit_R">Red</label>
+              <div class="display bit_R_display" type="number">2</div>
+              <input class="bit_range" type="range" value="2" min="1" max="8" step="1" name="bit_R" id="bit_R" />
+            </div>
+            <div class="bit">
+              <label for="bit_G">Green</label>
+              <div class="display bit_G_display" type="number">2</div>
+              <input class="bit_range" type="range" value="2" min="1" max="8" step="1" name="bit_G" id="bit_G" />
+            </div>
+            <div class="bit">
+              <label for="bit_B">Blue</label>
+              <div class="display bit_B_display" type="number">2</div>
+              <input class="bit_range" type="range" value="2" min="1" max="8" step="1" name="bit_B" id="bit_B" />
+            </div>
           </div>
         </div>
+      </div>
+
+      <div class="column">
+        <p class="title">Information</p>
+
+        <p class="information-element">Selected <span id="bits-total">6</span> bits total.</p>
+        <p class="information-element">Image has <span id="pixels-total">0</span> pixels.</p>
       </div>
 
     </section>
@@ -71,7 +89,11 @@
       <div class="text-to-hide">
         <textarea id="text" name="text">Sample text</textarea>
 
-        <button id="load-text-file">Load text from a file</button>
+        <div>
+          <button id="load-text-file">Load text from a file</button>
+          <p class="hidden" id="characters-left-info"><span id="characters-left">0</span> characters left</p>
+        </div>
+        
       </div>
 
     </section>

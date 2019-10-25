@@ -1,4 +1,12 @@
+html {
+    height: calc(100% - 16px);
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -34,6 +42,7 @@ section {
 
 .image {
     display: flex;
+    justify-content: center;
     background: #333;
     flex: 1;
     height: 264px;
@@ -129,5 +138,44 @@ button#load-text-file {
 
 .main-buttons button {
     width: 100%;
-    height: 42px;
+    height: 30px;
+}
+
+section.with-columns {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    width: 50%;
+}
+
+.description {
+    margin-bottom: 12px;
+    font-family: sans-serif;
+    font-size: 11px;
+    color: #696969;
+}
+
+.buttons-container {
+    display: flex;
+    flex: 1;
+}
+
+.image-size {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 4px;
+    font-size: 12px;
+}
+
+.information-element {
+    font-family: sans-serif;
+    margin-top: 0;
+    margin-bottom: .4em;
+}
+
+#characters-left-info.hidden {
+    display: none;
 }

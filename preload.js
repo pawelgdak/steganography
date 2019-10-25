@@ -37,6 +37,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
         imageSet = true;
 
+        updateImagesStats();
+
       }
 
     })
@@ -56,6 +58,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
           let textarea = document.getElementById("text");
           textarea.value = data;
+
+          updateCharactersLeft();
 
         })
 
@@ -90,7 +94,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     for(let x = 0; x < image.bitmap.data.length; x+=4) {
 
-      if(endingZeros == 8) break;
+      if(endingZeros == 7) break;
 
       r = image.bitmap.data[x];
       g = image.bitmap.data[x + 1];
@@ -104,7 +108,7 @@ window.addEventListener('DOMContentLoaded', () => {
       // Red channel decoding
       for(let rIterator = 7; rIterator > 7 - rNumberOfBits; rIterator--) {
 
-        if(endingZeros == 8) break;
+        if(endingZeros == 7) break;
 
         if(parseInt(rBinary[rIterator]) == 0) {
           endingZeros++;
@@ -117,32 +121,30 @@ window.addEventListener('DOMContentLoaded', () => {
       // Green channel decoding
       for(let gIterator = 7; gIterator > 7 - gNumberOfBits; gIterator--) {
 
-        if(endingZeros == 8) break;
+        if(endingZeros == 7) break;
 
         if(parseInt(gBinary[gIterator]) == 0) {
           endingZeros++;
         } else endingZeros = 0;
 
         string += gBinary[gIterator];
-
       }
 
       // Blue channel decoding
       for(let bIterator = 7; bIterator > 7 - bNumberOfBits; bIterator--) {
 
-        if(endingZeros == 8) break;
+        if(endingZeros == 7) break;
 
         if(parseInt(bBinary[bIterator]) == 0) {
           endingZeros++;
         } else endingZeros = 0;
 
         string += bBinary[bIterator];
-
       }
 
     }
 
-    if(endingZeros != 8) {
+    if(endingZeros != 7) {
       alert("Image has no encoded text");
     } else {
       document.getElementById("text").value = helpers.chainOfBitsToString(string);
@@ -155,7 +157,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let tempPath = app.getPath("temp");
     let imageElement = document.getElementById("original-photo");
-    let imagePath = imageElement.src.split("file:///")[1];
+    let imagePath = decodeURIComponent(imageElement.src.split("file:///")[1]);
 
     if(!imageSet) {
       alert("Image has not been set.");
@@ -166,12 +168,19 @@ window.addEventListener('DOMContentLoaded', () => {
       if(!confirm("You have unsaved image. Do you want to continue?")) return;
     }
 
+    if(getCharactersLeft() < 0) {
+      alert("The text is too long!");
+      return;
+    }
+
     let tempImagePath = `${tempPath}\\steganography-temp-image`;
 
     try {
       await fs.copyFileSync(imagePath, tempImagePath);
     } catch(err) {
-      console.error(err);
+      console.log(err);
+      alert("There was a problem with the image.");
+      return;
     }
 
     // Steganography encoding part
@@ -210,6 +219,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         rBinary = helpers.replaceStringCharacter(rBinary, rIterator, textInBinary[textIterator]);
         textIterator++;
+        
 
       }
 
@@ -250,10 +260,49 @@ window.addEventListener('DOMContentLoaded', () => {
     await image.writeAsync(tempImagePath);
 
     let modifiedImageElement = document.getElementById("modified-photo");
-    modifiedImageElement.src = tempImagePath;
+    modifiedImageElement.src = `${tempImagePath}?timestamp=${new Date().getTime()}`;
     imageModifiedSet = true;
     unsavedImage = true;
 
+    updateImagesStats();
+  }
+
+  // Clear
+  document.getElementById("clear-original").onclick = () => {
+    if(!imageSet) {
+      alert("Image has not been set.");
+      return;
+    }
+
+    if(unsavedImage) {
+      if(!confirm("Are you sure you want to clear the content?")) return;
+    }
+
+    let image = document.getElementById("original-photo");
+    image.src = "";
+
+    imageSet = false;
+
+    updateImagesStats();
+  }
+
+  document.getElementById("clear-modified").onclick = () => {
+    if(!imageModifiedSet) {
+      alert("Nothing to clear.");
+      return;
+    }
+
+    if(unsavedImage) {
+      if(!confirm("Are you sure you want to clear the content?")) return;
+    }
+
+    let image = document.getElementById("modified-photo");
+    image.src = "";
+
+    imageModifiedSet = false;
+    unsavedImage = false;
+
+    updateImagesStats();
   }
 
   // Save modified file
@@ -261,6 +310,59 @@ window.addEventListener('DOMContentLoaded', () => {
     saveModifiedFile();
   }
 })
+
+let updateImagesStats = async () => {
+
+  let image;
+
+  if(imageSet) {
+    let imageElement = document.getElementById("original-photo");
+    let imagePath = decodeURIComponent(imageElement.src.split("file:///")[1]);
+
+    const statsOriginal = fs.statSync(imagePath);
+    image = await Jimp.read(imagePath);
+
+    const pixels = image.bitmap.width * image.bitmap.height;
+
+    document.getElementById("original-photo-size").innerText = `${statsOriginal.size}B`;
+    document.getElementById("pixels-total").innerText = pixels;
+
+    document.getElementById("characters-left-info").classList.remove("hidden");
+    updateCharactersLeft();
+  } else {
+    document.getElementById("original-photo-size").innerText = "";
+    document.getElementById("pixels-total").innerText = "0";
+
+    document.getElementById("characters-left-info").classList.add("hidden");
+  }
+
+  if(imageModifiedSet) {
+    let modifiedImageElement = document.getElementById("modified-photo");
+    let modifiedImagePath = decodeURIComponent(modifiedImageElement.src.split("file:///")[1]).split("?timestamp")[0];
+
+    const statsModified = fs.statSync(modifiedImagePath);
+    document.getElementById("modified-photo-size").innerText = `${statsModified.size}B`;
+  } else document.getElementById("modified-photo-size").innerText = "";
+
+}
+
+let getCharactersLeft = () => {
+  const pixels = parseInt(document.getElementById("pixels-total").innerText);
+
+  const rNumberOfBits = parseInt(document.getElementById("bit_R").value);
+  const gNumberOfBits = parseInt(document.getElementById("bit_G").value);
+  const bNumberOfBits = parseInt(document.getElementById("bit_B").value);
+
+  const charactersTotal = pixels / (8 / (rNumberOfBits + gNumberOfBits + bNumberOfBits));
+  const textLength = document.getElementById("text").value.length;  
+  const charactersLeft = Math.floor(charactersTotal - textLength);
+
+  return charactersLeft;
+}
+
+let updateCharactersLeft = () => {
+  document.getElementById("characters-left").innerText = getCharactersLeft();
+}
 
 let saveModifiedFile = () => {
 
@@ -271,14 +373,14 @@ let saveModifiedFile = () => {
 
   let tempPath = app.getPath("temp");
   let imageElement = document.getElementById("original-photo");
-  let imagePath = imageElement.src.split("file:///")[1];
+  let imagePath = decodeURIComponent(imageElement.src.split("file:///")[1]);
   let tempImagePath = `${tempPath}\\steganography-temp-image`;
 
   dialog.showSaveDialog({
     title: "Save modified file",
     defaultPath: imagePath.split(path.extname(imagePath))[0] + "-modified" + path.extname(imagePath)
   }, async (fileName) => {
-    if(fileName !== undefined) {
+    if(fileName !== undefined && fileName != "") {
 
       try {
 

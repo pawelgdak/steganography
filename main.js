@@ -13,9 +13,9 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    resizable: false,
+    resizable: true,
     width: 800,
-    height: 800,
+    height: 900,
     icon: path.join(__dirname, '/icons/icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
