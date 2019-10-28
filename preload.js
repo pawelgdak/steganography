@@ -189,6 +189,11 @@ window.addEventListener('DOMContentLoaded', () => {
     let textInBinary = helpers.stringToChainOfBits(text);
     let textIterator = 0;
 
+    if([...text].some(char => char.charCodeAt(0) > 127)) {
+      alert("Text includes characters that are not allowed.");
+      return;
+    }
+
     let r, g, b, rBinary, gBinary, bBinary;
     let rNumberOfBits = document.getElementById("bit_R").value;
     let gNumberOfBits = document.getElementById("bit_G").value;
