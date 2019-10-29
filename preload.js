@@ -25,10 +25,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
         let extension = path.extname(fileName[0]);
 
-        let availableExtensions = ['.jpg', '.jpeg', '.png']
+        let availableExtensions = ['.jpg', '.jpeg', '.png', '.bmp']
 
         if(!availableExtensions.includes(extension)) {
-          alert("Filetype is unsupported. Supported filetypes: jpg, jpeg, png.");
+          alert("Filetype is unsupported. Supported filetypes: jpg, jpeg, png, bmp.");
           return;
         }
 
